@@ -1,4 +1,5 @@
 # APS 4º Periodo
 ## EstágioWeb
 Objetivos:
-- Elaborar uma website;
+  - Elaborar um website sobre o tema abordado em sala;
+  - Database MySQL;
