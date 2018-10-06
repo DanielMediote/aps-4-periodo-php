@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Estágio</title>
+    <title>APS Estágio</title>
   </head>
   <body>
     <h1>Olá Mundo</h1>
