@@ -1,10 +1,12 @@
+<?php require_once 'config.php'; ?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>APS Estágio</title>
+    <title>Estágio</title>
+    <?php require_once ROOT.'/plugins.php';?>
   </head>
   <body>
-    <h1>Olá Mundo</h1>
+    <a href="<?="view/paginas/cadastro.php"?>">CADASTRO</a>
   </body>
 </html>
