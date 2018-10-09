@@ -7,6 +7,6 @@
     <?php require_once ROOT.'/plugins.php';?>
   </head>
   <body>
-    <a href="<?="view/paginas/cadastro.php"?>">CADASTRO</a>
+    <?php require_once NAVBAR;?>
   </body>
 </html>
