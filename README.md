@@ -1,5 +1,6 @@
 # APS 4º Periodo
-## EstágioWeb
+## Estagio Web
 Objetivos:
   - Elaborar um website sobre o tema abordado em sala;
-  - Database MySQL;
+  - Banco de Dados MySQL;
+  - Utilização do Dockerfile e Docker-Compose; 
