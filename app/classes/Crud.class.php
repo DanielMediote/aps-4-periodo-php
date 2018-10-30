@@ -49,7 +49,6 @@ abstract class Crud{
       $query .= ($key != end(array_keys($colunasBanco))) ? ", " : " " ;
     }
     $query .= ");";
-    // var_dump($query);
     $stmt = Conexao::doTransaction($query);
   }
 

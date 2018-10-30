@@ -2,9 +2,11 @@
 
 <ifModule mod_rewrite.c>
 
-  RewriteEngine On
+RewriteEngine On
 
-  RewriteRule ^home/?$ /index.php [NC,L]
-  RewriteRule ^cadastro/?$ /view/paginas/cadastro.php [NC,L]
-  RewriteRule ^teste/?$ /view/paginas/teste.php [NC,L]
+RewriteRule ^/?$ access-route.php [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*?)$ access-route.php
 </ifModule>

@@ -1,28 +1,25 @@
 <?php
 /**
  * Classe Estado
- * 
+ *
  */
 class Estado extends Crud{
-  /** 
-   * @var string $tabela Tabela do Estado 
-   * @var int $id Código do Estado 
-   * @var string $nome Nome do Estado 
-   * @var string $regiao Região do Estado 
-   * 
+  /**
+   * @var string $tabela Tabela do Estado
+   * @var int $id Código do Estado
+   * @var string $nome Nome do Estado
+   * @var string $regiao Região do Estado
+   *
   */
-  protected $var = null;
   protected $tabela = 'ESTADO';
   protected $id;
   protected $nome;
   protected $uf;
   protected $regiao;
 
-  function __construct(){
-  }
-
   /**
-   * 
+   * Função para retornar dados de um tabela de acordo com sua Região.
+   *
    * @example $objeto->readPerRegion('Norte');
    * @param string $regiao
    * @return array Retorna um array de estados.
@@ -32,6 +29,7 @@ class Estado extends Crud{
     $stmt = Conexao::doTransaction($query);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+
 }
 
 

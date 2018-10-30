@@ -6,7 +6,7 @@ services:
 
     container_name: aps-web
     ports:
-      - "8081:80"
+      - "8080:80"
     volumes:
       - ./app:/var/www/html
     links:
@@ -24,7 +24,7 @@ services:
     volumes:
       - ./dumps:/docker-entrypoint-initdb.d
       - data:/var/lib/mysql
-    # ports:
-      # - "3307:3306"
+    ports:
+      - "3307:3306"
 volumes:
   data:
