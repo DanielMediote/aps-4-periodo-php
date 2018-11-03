@@ -7,11 +7,18 @@
   - Banco de Dados MySQL;
   - Utilização do Dockerfile e Docker-Compose;
 
-'''yaml
+#### Docker Compose File :
+
+```yaml
+version: '3'
 services:
   web:
-  mysql:
-'''
+
+  database:
+
+volumes:
+  data:
+```
 
 ## Implementações até dia 10/11:
   - Filtro de Campos;
