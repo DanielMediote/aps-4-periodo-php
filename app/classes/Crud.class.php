@@ -13,7 +13,9 @@ abstract class Crud{
    */
   public function readAll(){
     $query = "SELECT * FROM {$this->tabela}";
-    $stmt = Conexao::doTransaction($query);
+    $conn = Conexao::startTransaction();
+    $stmt = Conexao::doTransaction($query, $conn);
+    Conexao::commitTransaction($conn);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
@@ -26,7 +28,9 @@ abstract class Crud{
   public function readOne($id){
     $tableFields = $this->getTableFields();
     $query = "SELECT * FROM {$this->tabela} WHERE ".$tableFields[0]." = {$id}";
-    $stmt = Conexao::doTransaction($query);
+    $conn = Conexao::startTransaction();
+    $stmt = Conexao::doTransaction($query, $conn);
+    Conexao::commitTransaction($conn);
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
@@ -46,10 +50,11 @@ abstract class Crud{
       if (in_array($value, array('id', 'pessoa'))) continue;
       $type = gettype($colunasClasse[$value]);
       $query .= ($type == 'string') ? "'{$colunasClasse[$value]}'" : $colunasClasse[$value] ;
-      $query .= ($key != end(array_keys($colunasBanco))) ? ", " : " " ;
+      $query .= ($key != end(array_keys($colunasBanco))) ? ", " : "" ;
     }
     $query .= ");";
-    $stmt = Conexao::doTransaction($query);
+    echo $query."\n";
+    return $query;
   }
 
   public function updateAll(){
@@ -64,6 +69,7 @@ abstract class Crud{
       $query .= ($key != end(array_keys($colunasClasse)))? ", " : " ";
     }
     $query .= ";";
+    return $query;
   }
 
   public function updateOne($rowField, $rowValue, $row, $value){
@@ -74,13 +80,27 @@ abstract class Crud{
     $valueType = gettype($value);
     $query .= ($valueType == 'string') ? "'{$value}'" : "{$value}";
     $query .= ";";
-    $stmt = Conexao::doTransaction($query);
+    return $query;
   }
 
   public function getTableDetalhes(){
     $query = "DESCRIBE {$this->tabela};";
-    $stmt = Conexao::doTransaction($query);
+    $conn = Conexao::startTransaction();
+    $stmt = Conexao::doTransaction($query, $conn);
+    Conexao::commitTransaction($conn);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getTableIdByField($field, $value){
+    $colunasDB = $this->getTableFields();
+    $query = "SELECT {$colunasDB[0]} FROM {$this->tabela} WHERE {$field} = ";
+    $type = gettype($value);
+    $query .= ($type == 'string')? "'{$value}'" : "{$value};";
+    // var_dump($query."\n");
+    $conn = Conexao::startTransaction();
+    $stmt = Conexao::doTransaction($query, $conn);
+    Conexao::commitTransaction($conn);
+    return intval($stmt->fetch(PDO::FETCH_ASSOC)[$colunasDB[0]]);
   }
 
   public function getTableFields(){
@@ -99,7 +119,7 @@ abstract class Crud{
     if (isset($atributo)) {
       return $this->$atributo;
     } else {
-      return $this->NULL;
+      return NULL;
     }
   }
 
@@ -108,7 +128,11 @@ abstract class Crud{
   }
 
   public function set($atributo, $valor){
-    return $this->$atributo = $valor;
+    if (isset($atributo)) {
+      return $this->$atributo = $valor;
+    }else {
+      return $this->$atributo = NULL;
+    }
   }
 
   public function setAll($dados){
@@ -118,19 +142,10 @@ abstract class Crud{
     }
   }
 
-  public function getPageObjects(){
-    $dados = [];
-      foreach ($this->getAll as $key => $value) {
-        if(in_array($key, array('id', 'id_pessoa', 'tabela'))) continue;
-        $dados[$key] = filter_input(INPUT_POST, $key);
-      }
-      var_dump($dados);
-      return $dados;
+  public function show_object(){
+    foreach ($this->getAll() as $key => $value) {
+      print("{$key} = {$value}\n");
+    }
   }
-
-
-
-
-
 }
 ?>

@@ -8,6 +8,7 @@ class Empresa extends Crud
   protected $id;
   protected $nome;
   protected $cpnj;
+  protected $cep;
 
 }
 

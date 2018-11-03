@@ -21,12 +21,16 @@ final class Conexao{
     }
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+    return $conn;
+  }
+
+  public function startTransaction(){
+    $conn = self::open();
     $conn->beginTransaction();
     return $conn;
   }
 
-  public function doTransaction($query){
-    $conn = self::open();
+  public function doTransaction($query, $conn){
     try {
       $stmt = $conn->prepare($query);
       $stmt->execute();
@@ -34,9 +38,14 @@ final class Conexao{
       echo "Error => ". $e->getMessage();
       $conn->rollBack();
     }
-    $conn->commit();
     return $stmt;
   }
+
+  public function commitTransaction($conn){
+    $conn->commit();
+    return $conn;
+  }
+
 }
 
 

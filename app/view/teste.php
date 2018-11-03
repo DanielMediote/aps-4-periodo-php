@@ -7,7 +7,11 @@
 <body>
   <?php
   require_once AUTOLOAD;
-  
+  $fac = new Faculdade();
+  $fac->insert($conn);
+  // foreach ($fac->readAll() as $key => $value) {
+  //   print("{$value['faculdade_nome']}");
+  // }
   ?>
 </body>
 </html>

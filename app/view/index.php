@@ -6,6 +6,6 @@
   <?php require_once LINKS;?>
 </head>
 <body>
-  <?php require_once ROOT.'/html/navbar.php';?>
+  <?php require_once ROOT.'/html/build/navbar.php';?>
 </body>
 </html>

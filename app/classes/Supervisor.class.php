@@ -2,7 +2,7 @@
 /**
  *
  */
-class Estagio extends Crud
+class Supervisor extends Pessoa
 {
 
   function __construct()
@@ -10,8 +10,5 @@ class Estagio extends Crud
     
   }
 }
-
-
-
 
  ?>
