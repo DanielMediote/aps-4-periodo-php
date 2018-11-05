@@ -9,16 +9,12 @@
 
 ## Implementações até dia 10/11:
 
-```HTML
-  <ol>
-    <li>Filtro de Campos</li>
-    <li>Mascaras para os Inputs</li>
-    <li>Inserts e Updates de Empresa</li>
-    <li>Inserts e Updates de Faculdade</li>
-    <li>Inserts e Updates de Estagio</li>
-    <li>Modelagem do Banco de Dados</li>
-    <li>Elaboração das Páginas de Estágio, Lista de Alunos</li>
-    <li>Elaboração das Páginas de Convênio com FPDF</li>
-    <li>Diagrama de Classe, Casos de Uso e Sequência</li>
-  </ol>
-```
+  - *Filtro de Campos*
+  - *Mascaras para os Inputs*
+  - *Inserts e Updates de Empresa*
+  - *Inserts e Updates de Faculdade*
+  - *Inserts e Updates de Estagio*
+  - *Modelagem do Banco de Dados*
+  - *Elaboração das Páginas de Estágio, Lista de Alunos*
+  - *Elaboração das Páginas de Convênio com FPDF*
+  - *Diagrama de Classe, Casos de Uso e Sequência*
