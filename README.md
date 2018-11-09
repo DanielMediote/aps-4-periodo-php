@@ -18,7 +18,3 @@
   - *Elaboração das Páginas de Estágio, Lista de Alunos*
   - *Elaboração das Páginas de Convênio com FPDF*
   - *Diagrama de Classe, Casos de Uso e Sequência*
-
-```javascript
-var input = $("elemento");
-```
