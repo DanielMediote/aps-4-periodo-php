@@ -6,7 +6,6 @@
   <?php require_once LINKS; ?>
 </head>
 <body class="uk-background-muted">
-
   <?php
   require_once AUTOLOAD;
   require_once ROOT.'/html/build/navbar.php';
@@ -30,7 +29,7 @@
     <?php foreach ($rotas as $chave => $path):?>
       <li>
         <div class="uk-container uk-container-small">
-          <form name="<?=$chave?>_form" class="uk-form formulario" action="" method="post">
+          <form id="<?=$chave?>_form" name="<?=$chave?>_form" class="uk-form formulario" action="" method="post">
             <?php require_once $path;?>
             <div class="uk-margin-medium uk-container-large uk-align-left">
               <input class="uk-checkbox" type="checkbox" name="termos" value="">
@@ -38,7 +37,7 @@
             </div>
             <div class="uk-margin-medium uk-container uk-align-right">
               <button class="uk-button uk-button-danger" type="reset" name="reset_date">Limpar Dados</button>
-              <button class="uk-button" type="button" name="btn_enviar">Enviar Dados</button>
+              <button class="uk-button uk-disabled" type="button" name="btn_enviar">Enviar Dados</button>
             </div>
           </form>
         </div>

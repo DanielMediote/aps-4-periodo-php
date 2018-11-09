@@ -1,7 +1,6 @@
 <?php
 
-class Aluno extends Pessoa
-{
+class Aluno extends Pessoa{
 
   protected $tabela = "ALUNO";
   protected $id;
@@ -10,16 +9,5 @@ class Aluno extends Pessoa
   protected $ra;
   protected $faculdade;
 
-  function __construct(){
-    // parent::__construct();
-  }
 }
-
-
-
-
-
-
-
-
- ?>
+?>

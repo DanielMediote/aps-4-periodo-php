@@ -7,54 +7,65 @@
 abstract class Crud{
 
   /**
-   * Retorna dados de uma tabela.
-   * @return array
-   * @category Read
-   */
+  * Retorna dados de uma tabela.
+  * @return array
+  * @category Read
+  */
   public function readAll(){
     $query = "SELECT * FROM {$this->tabela}";
-    $conn = Conexao::startTransaction();
-    $stmt = Conexao::doTransaction($query, $conn);
-    Conexao::commitTransaction($conn);
+    $stmt = Conexao::doTransaction($query);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /**
-   * Retorna dados de uma tabela, de acordo com id inserido.
-   * @param int $id ID da Tabela
-   * @return array
-   * @category Read
-   */
+  * Retorna dados de uma tabela, de acordo com id inserido.
+  * @param int $id ID da Tabela
+  * @return array
+  * @category Read
+  */
   public function readOne($id){
     $tableFields = $this->getTableFields();
-    $query = "SELECT * FROM {$this->tabela} WHERE ".$tableFields[0]." = {$id}";
-    $conn = Conexao::startTransaction();
-    $stmt = Conexao::doTransaction($query, $conn);
-    Conexao::commitTransaction($conn);
+    $query = "SELECT * FROM {$this->tabela} WHERE " . $tableFields[0] . " = {$id}";
+    $stmt = Conexao::doTransaction($query);
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
+  /**
+  * undocumented function summary
+  *
+  * Undocumented function long description
+  *
+  * @param Type $var Description
+  * @return type
+  * @throws conditon
+  **/
   public function insert(){
     $query = "INSERT INTO {$this->tabela}(";
     $colunasClasse = $this->getAll();
     $colunasBanco = $this->getTableFields();
     $regex = "/\w+_/";
-    for ($i=0; $i < sizeof($colunasBanco) ; $i++) {
-      if(in_array(preg_replace($regex, "", $colunasBanco[$i]), array('id', 'pessoa'))) continue;
+    for ($i = 0; $i < sizeof($colunasBanco); $i++) {
+      if (in_array(preg_replace($regex, "", $colunasBanco[$i]), array('id', 'pessoa'))) {
+        continue;
+      }
+
       $query .= $colunasBanco[$i];
-      $query .= ($colunasBanco[$i] == end($colunasBanco)) ? "" : ", " ;
+      $query .= ($colunasBanco[$i] == end($colunasBanco)) ? "" : ", ";
     }
     $query .= ") VALUES(";
     foreach ($colunasBanco as $key => $value) {
       $value = preg_replace($regex, "", $value);
-      if (in_array($value, array('id', 'pessoa'))) continue;
+      if (in_array($value, array('id', 'pessoa'))) {
+        continue;
+      }
+
       $type = gettype($colunasClasse[$value]);
-      $query .= ($type == 'string') ? "'{$colunasClasse[$value]}'" : $colunasClasse[$value] ;
-      $query .= ($key != end(array_keys($colunasBanco))) ? ", " : "" ;
+      $query .= ($type == 'string') ? "'{$colunasClasse[$value]}'" : $colunasClasse[$value];
+      $query .= ($key != end(array_keys($colunasBanco))) ? ", " : "";
     }
     $query .= ");";
-    echo $query."\n";
-    return $query;
+    // print("\n$query\n");
+    $stmt = Conexao::doTransaction($query);
   }
 
   public function updateAll(){
@@ -62,14 +73,14 @@ abstract class Crud{
     $colunasClasse = $this->getAll();
     $regex = "/\w+_/";
     foreach ($colunasClasse as $key => $value) {
-      if(in_array(preg_replace($regex,"", $key), array('tabela', 'id', 'pessoa'))) continue;
+      if (in_array(preg_replace($regex, "", $key), array('tabela', 'id', 'pessoa'))) continue;
       $type = gettype($value);
       $query .= "{$key} = ";
-      $query .= ($type == 'string') ? "'{$value}'" : "{$value}" ;
-      $query .= ($key != end(array_keys($colunasClasse)))? ", " : " ";
+      $query .= ($type == 'string') ? "'{$value}'" : "{$value}";
+      $query .= ($key != end(array_keys($colunasClasse))) ? ", " : " ";
     }
     $query .= ";";
-    return $query;
+    Conexao::doTransaction($query);
   }
 
   public function updateOne($rowField, $rowValue, $row, $value){
@@ -80,14 +91,18 @@ abstract class Crud{
     $valueType = gettype($value);
     $query .= ($valueType == 'string') ? "'{$value}'" : "{$value}";
     $query .= ";";
-    return $query;
+    Conexao::doTransaction($query);
+  }
+
+  public function checkExistsData($field, $value){
+    $query = "SELECT * FROM {$this->tabela} WHERE {$field} = '{$value}';";
+    $stmt = Conexao::doTransaction($query);
+    return $stmt->fetchColumn();
   }
 
   public function getTableDetalhes(){
     $query = "DESCRIBE {$this->tabela};";
-    $conn = Conexao::startTransaction();
-    $stmt = Conexao::doTransaction($query, $conn);
-    Conexao::commitTransaction($conn);
+    $stmt = Conexao::doTransaction($query);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
@@ -95,12 +110,10 @@ abstract class Crud{
     $colunasDB = $this->getTableFields();
     $query = "SELECT {$colunasDB[0]} FROM {$this->tabela} WHERE {$field} = ";
     $type = gettype($value);
-    $query .= ($type == 'string')? "'{$value}'" : "{$value};";
+    $query .= ($type == 'string') ? "'{$value}'" : "{$value};";
     // var_dump($query."\n");
-    $conn = Conexao::startTransaction();
-    $stmt = Conexao::doTransaction($query, $conn);
-    Conexao::commitTransaction($conn);
-    return intval($stmt->fetch(PDO::FETCH_ASSOC)[$colunasDB[0]]);
+    $stmt = Conexao::doTransaction($query);
+    return $stmt->fetch(PDO::FETCH_ASSOC)[$colunasDB[0]];
   }
 
   public function getTableFields(){
@@ -119,7 +132,7 @@ abstract class Crud{
     if (isset($atributo)) {
       return $this->$atributo;
     } else {
-      return NULL;
+      return null;
     }
   }
 
@@ -130,15 +143,18 @@ abstract class Crud{
   public function set($atributo, $valor){
     if (isset($atributo)) {
       return $this->$atributo = $valor;
-    }else {
-      return $this->$atributo = NULL;
+    } else {
+      return $this->$atributo = null;
     }
   }
 
   public function setAll($dados){
     foreach ($this->getAll() as $atributo => $value) {
-      if (in_array($atributo, array('tabela', 'id', 'id_pessoa'))) continue;
-      $this->set($atributo,$dados[$atributo]);
+      if (in_array($atributo, array('tabela', 'id', 'id_pessoa'))) {
+        continue;
+      }
+
+      $this->set($atributo, $dados[$atributo]);
     }
   }
 
@@ -147,5 +163,6 @@ abstract class Crud{
       print("{$key} = {$value}\n");
     }
   }
+
 }
 ?>

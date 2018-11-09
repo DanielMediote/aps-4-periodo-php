@@ -10,11 +10,6 @@ class Teste extends Crud
   protected $nome;
   protected $senha;
 
-  function __construct(){
-
-  }
-
-
 }
 
 

@@ -1,65 +1,43 @@
 <?php
 
-
 /**
 *
 */
 class FormularioSubmit{
 
-  protected $dados = array();
+  protected $bean = array();
 
-  function __contruct(){
-
+  public function __construct($dados){
+    $this->bean = $dados;
   }
 
-  public function verificar_senha($senha1, $senha2){
-    $senha = ($senha1 == $senha2)? True : False;
+  public function verificarSenhas($senha1, $senha2){
+    $senha = ($senha1 == $senha2) ? true : false;
     return $senha;
   }
 
-  public function setDados($dados){
-    $estado = new Estado();
-    $cidade = new Cidade();
-    foreach ($dados as $key => $value) {
-      $this->dados[$key] = $value;
-    }
-    $this->dados['senha'] = $dados['senha2'];
-    $date = date('m/d/Y', time());
-    $this->dados['dataCadastro'] = $date;
-    $this->dados['foto'] = "null";
-    $this->dados['endereco'] = $dados['cep'];
-    $this->dados['cidade'] = $cidade->getTableIdByField('nome', $this->dados['cidade_nome']);
-    $this->dados['estado'] = $estado->getTableIdByField('uf', $this->dados['estado_uf']);
-  }
-
   public function submit(){
-    $class = new $this->dados['classe']();
+    $class = new $this->bean['classe']();
     $endereco = new Endereco();
-    $conn = Conexao::startTransaction();
 
+    $endereco->setAll($this->bean);
+    $endereco->insert();
 
-    $endereco->setAll($this->dados);
-    $stmt = Conexao::doTransaction($endereco->insert(), $conn);
-
-    if (in_array($this->dados['classe'], array('Aluno', 'Professor', 'Supervisor'))) {
+    if (in_array($this->bean['classe'], array('Aluno', 'Professor', 'Supervisor'))) {
       $pessoa = new Pessoa();
 
-      $pessoa->setAll($this->dados);
-      $stmt = Conexao::doTransaction($pessoa->insert(), $conn);
-
+      $pessoa->setAll($this->bean);
+      $pessoa->insert();
+      $id_pes = $pessoa->getTableIdByField('pes_usuario', $pessoa->get('usuario'));
+      $class->setAll($this->bean);
+      $class->insert();
+      $table_name = lcfirst($this->bean['classe'])."_";
+      $id_class = $class->getTableIdByField($table_name."cpf" , $class->get('cpf'));
+      $class->updatePessoaId($id_pes, $id_class);
+    } else {
       $class->setAll($this->dados);
-      $stmt = Conexao::doTransaction($class->insert(), $conn);
-
-    }else {
-      $class->setAll($this->dados);
-      $class->show_object();
-      $stmt = Conexao::doTransaction($class->insert(), $conn);
+      $class->insert();
     }
-    Conexao::commitTransaction($conn);
   }
 
 }
-
-
-
-?>

@@ -12,18 +12,14 @@ class Curso extends Crud
 
   public function getCursoByFaculdadeId($id){
     $query = "SELECT * FROM CURSO WHERE curso_faculdade_id = {$id};";
-    $conn = Conexao::startTransaction();
-    $stmt = Conexao::doTransaction($query, $conn);
-    Conexao::commitTransaction($conn);
+    $stmt = Conexao::doTransaction($query);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   public function getCursoPeriodos($curso_id){
-    $query = "SELECT curso_periodos FROM CURSO WHERE curso_id = {$curso_id};";
-    // var_dump($query);
-    $conn = Conexao::startTransaction();
-    $stmt = Conexao::doTransaction($query, $conn);
-    Conexao::commitTransaction($conn);
+    $query = "SELECT * FROM CURSO WHERE curso_id = {$curso_id};";
+    echo $query;
+    $stmt = Conexao::doTransaction($query);
     return $stmt->fetch(PDO::FETCH_ASSOC)['curso_periodos'];
   }
 }
