@@ -19,6 +19,26 @@
   - *Elaboração das Páginas de Convênio com FPDF*
   - *Diagrama de Classe, Casos de Uso e Sequência*
 
-```javascript
-var input = $("elemento");
-```
+
+# APS - Estágio
+## Estagiário
+ - * Pagina Cadrasto
+ - * Pagina Perfil
+ - * Pagina de Documentos - API Google sheets
+ - * Realizar uploads de arquivos de textos(docs,pdf)
+ - * Pagina Atividade
+   - * Registrar Atividade
+## Professor
+ - * Pagina Cadrasto
+ - * Pagina  Perfil
+ - * Listagem de Aluno
+   - * Listagem de Atividades 
+   - * Listagem de Documentos
+## Empresa
+ - * Pagina Cadrasto
+ - * Pagina Manutenção
+ - * Estágiarios
+    - * Listar Estagiários
+ - * Estagios
+    - * Lista de Estagios
+    - * Adcionar, Alterar ou Remover Estagios
