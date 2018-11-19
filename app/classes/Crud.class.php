@@ -74,13 +74,15 @@ abstract class Crud{
     $regex = "/\w+_/";
     foreach ($colunasClasse as $key => $value) {
       if (in_array(preg_replace($regex, "", $key), array('tabela', 'id', 'pessoa'))) continue;
+      if ($key == "senha") continue;
       $type = gettype($value);
       $query .= "{$key} = ";
       $query .= ($type == 'string') ? "'{$value}'" : "{$value}";
       $query .= ($key != end(array_keys($colunasClasse))) ? ", " : " ";
     }
     $query .= ";";
-    Conexao::doTransaction($query);
+    var_dump($query);
+    // Conexao::doTransaction($query);
   }
 
   public function updateOne($rowField, $rowValue, $row, $value){

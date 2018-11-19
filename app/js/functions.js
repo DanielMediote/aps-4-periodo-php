@@ -127,6 +127,20 @@ function build_mask_all() {
   });
 }
 
+function isDate() {
+  var form = $('.formulario');
+  form.each(function(index, el) {
+    var this_form = $(el);
+    var input_data = this_form.find('[name=dataNasc]');
+    input_data.blur(function(event) {
+      dateStr = input_data.val();
+      var parts = dateStr.split("/");
+      var data = new Date(parts[2], parts[1] - 1, parts[0]);
+      console.log(data);
+    });
+  });
+}
+
 function check_termos() {
   var chk_termos = $(".formulario").find("[name=termos]");
   var btn_enviar = $(".formulario").find("[name=btn_enviar]");
@@ -159,6 +173,28 @@ function validate_inputs(form) {
   return res;
 }
 
+function form_login() {
+  var form = $(".formulario-login");
+  var btn_logar = form.find("[name=btn_logar]");
+  btn_logar.click(function(event) {
+    var data_login = {};
+    data_login['usuario'] = form.find('[name=usuario]').val();
+    data_login['senha'] = form.find('[name=senha]').val();
+    $.ajax({
+      url: '../controller/ajax_logar.php',
+      type: 'POST',
+      data: data_login,
+      success: (data) => {
+        console.log(data);
+        location.href = "http://localhost:8080/";
+      },
+      error: () => {
+        console.log("error");
+      }
+    });
+  });
+}
+
 function form_submit() {
   var form = $(".formulario");
   form.each(function (index, el) {
@@ -170,8 +206,8 @@ function form_submit() {
         notification(
           "<p class=\"uk-text-center\">Alguns campos estão nulos. Preencha-os corretamente.</p>",
           'warning',
-          'top-center',
-          2000
+          'top-left',
+          1500
         );
       }else {
         var formData = new FormData(el);
@@ -183,7 +219,6 @@ function form_submit() {
           processData: false,
           data: formData,
           success: (data) => {
-            // form_clear();
             notification(
               "<p class=\"uk-text-center\">Formulário Enviado</p>",
               'success',
@@ -191,6 +226,9 @@ function form_submit() {
               2000
             );
             console.log(data);
+            setTimeout(function () {
+              location.reload();
+            }, 1500);
           },
           error: () => {
             console.log("error");
@@ -198,6 +236,8 @@ function form_submit() {
         });
       }
     });
+
+
   });
 }
 
@@ -211,20 +251,61 @@ function check_passwords() {
       /* Act on the event */
       var senha1 = input_s1.val();
       var senha2 = input_s2.val();
-      if (!(senha1==senha2)) {
+      if (senha1 != senha2) {
         if (input_s1.hasClass('uk-form-success')) input_s1.removeClass('uk-form-success');
         if (input_s2.hasClass('uk-form-success')) input_s2.removeClass('uk-form-success');
         input_s1.addClass('uk-form-danger');
-        input_s1.attr('uk-tooltip', 'title: Senha as se confere; pos: bottom;');
-        input_s2.attr('uk-tooltip', 'title: Senha as se confere; pos: bottom;');
         input_s2.addClass('uk-form-danger');
+        input_s1.attr('uk-tooltip', 'title: As senhas as não se confere; pos: bottom;');
+        input_s2.attr('uk-tooltip', 'title: As senhas as não se confere; pos: bottom;');
       }else {
         if ((senha1 == "") && (senha2 == "")) {
           if (input_s1.hasClass('uk-form-success')) input_s1.removeClass('uk-form-success');
           if (input_s2.hasClass('uk-form-success')) input_s2.removeClass('uk-form-success');
           input_s1.addClass('uk-form-danger');
           input_s2.addClass('uk-form-danger');
-        }else {
+        }else if ((senha1.length < 8) && (senha2.length < 8)) {
+          if (input_s1.hasClass('uk-form-success')) input_s1.removeClass('uk-form-success');
+          if (input_s2.hasClass('uk-form-success')) input_s2.removeClass('uk-form-success');
+          input_s1.addClass('uk-form-danger');
+          input_s2.addClass('uk-form-danger');
+          input_s1.attr('uk-tooltip', 'title: Senha muito curta. Deve conter ao menos 8 caracteres; pos: bottom;');
+          input_s2.attr('uk-tooltip', 'title: Senha muito curta. ; pos: bottom;');
+        } else {
+          if (input_s1.hasClass('uk-form-danger')) input_s1.removeClass('uk-form-danger');
+          if (input_s2.hasClass('uk-form-danger')) input_s2.removeClass('uk-form-danger');
+          input_s1.addClass('uk-form-success');
+          input_s2.addClass('uk-form-success');
+          input_s1.removeAttr("uk-tooltip");
+          input_s2.removeAttr("uk-tooltip");
+        }
+      }
+    });
+    input_s1.blur(function(event) {
+      /* Act on the event */
+      var senha1 = input_s1.val();
+      var senha2 = input_s2.val();
+      if (senha1 != senha2) {
+        if (input_s1.hasClass('uk-form-success')) input_s1.removeClass('uk-form-success');
+        if (input_s2.hasClass('uk-form-success')) input_s2.removeClass('uk-form-success');
+        input_s1.addClass('uk-form-danger');
+        input_s2.addClass('uk-form-danger');
+        input_s1.attr('uk-tooltip', 'title: As senhas as não se confere; pos: bottom;');
+        input_s2.attr('uk-tooltip', 'title: As senhas as não se confere; pos: bottom;');
+      }else {
+        if ((senha1 == "") && (senha2 == "")) {
+          if (input_s1.hasClass('uk-form-success')) input_s1.removeClass('uk-form-success');
+          if (input_s2.hasClass('uk-form-success')) input_s2.removeClass('uk-form-success');
+          input_s1.addClass('uk-form-danger');
+          input_s2.addClass('uk-form-danger');
+        }else if ((senha1.length < 8) && (senha2.length < 8)) {
+          if (input_s1.hasClass('uk-form-success')) input_s1.removeClass('uk-form-success');
+          if (input_s2.hasClass('uk-form-success')) input_s2.removeClass('uk-form-success');
+          input_s1.addClass('uk-form-danger');
+          input_s2.addClass('uk-form-danger');
+          input_s1.attr('uk-tooltip', 'title: Senha muito curta; pos: bottom;');
+          input_s2.attr('uk-tooltip', 'title: Senha muito curta; pos: bottom;');
+        } else {
           if (input_s1.hasClass('uk-form-danger')) input_s1.removeClass('uk-form-danger');
           if (input_s2.hasClass('uk-form-danger')) input_s2.removeClass('uk-form-danger');
           input_s1.addClass('uk-form-success');
@@ -275,25 +356,30 @@ function check_user_exists() {
   form.each(function(index, el) {
     var input_usuario = $(el).find('[name=usuario]');
     input_usuario.blur(function(event) {
-      var value = input_usuario.val();
-      $.ajax({
-        url: '/controller/ajax_check_user.php',
-        type: 'POST',
-        data: {'usuario':value}
-      })
-      .done(function(res) {
-        console.log(res);
-        if (res) {
-          input_usuario.addClass('uk-form-warning');
-          input_usuario.attr('uk-tooltip', "title: Este usuario jś esta cadastrado; pos: right;");
-        }else {
-          input_usuario.addClass('uk-form-success');
-        }
-      })
-      .fail(function() {
-        console.log("error");
-      });
-
+      if (!(input_usuario.val() == "")) {
+        var value = input_usuario.val();
+        $.ajax({
+          url: '/controller/ajax_check_user.php',
+          type: 'POST',
+          data: {'usuario':value}
+        })
+        .done(function(res) {
+          console.log(res);
+          if (res) {
+            if (input_usuario.hasClass('uk-form-success')) input_usuario.removeClass('uk-form-success');
+            input_usuario.addClass('uk-form-danger');
+            input_usuario.attr('uk-tooltip', "title: Este usuario jś esta cadastrado; pos: right;");
+          }else {
+            input_usuario.addClass('uk-form-success');
+          }
+        })
+        .fail(function() {
+          console.log("error");
+        });
+      }else {
+        if (input_usuario.hasClass('uk-form-success')) input_usuario.removeClass('uk-form-success');
+        input_usuario.addClass('uk-form-danger');
+      }
     });
   });
 }

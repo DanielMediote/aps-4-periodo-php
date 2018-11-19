@@ -1,11 +1,12 @@
 <?php
 require_once 'config.php';
-
+require_once AUTOLOAD;
 $rotas = array(
   '/' => 'view/index.php',
   '/inicio' => 'view/index.php',
   '/cadastro' => 'view/cadastro.php',
-  '/teste' => 'view/teste.php'
+  '/teste' => 'view/teste.php',
+  '/login' => 'view/login.php'
 );
 
 if (in_array(URL,array_keys($rotas))) {

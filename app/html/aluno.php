@@ -19,6 +19,6 @@
       <option value="nulo" default seleted hidden>Selecionar</option>
     </select>
     <label for="uk-label">RA</label>
-    <input class="uk-input uk-form-medium" type="text" name="ra" value="">
+    <input class="uk-input uk-form-medium" type="text" name="ra" value="" maxlength="9">
   </div>
 </fieldset>

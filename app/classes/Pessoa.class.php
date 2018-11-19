@@ -45,5 +45,11 @@ class Pessoa extends Crud{
         // var_dump($query."\n");
         $stmt = Conexao::doTransaction($query);
     }
+
+    public function logarPessoa($user, $pass){
+        $query = "SELECT * FROM PESSOA WHERE pes_usuario = '{$user}' AND pes_senha = '".md5($senha)."';";
+        $stmt = Conexao::doTransaction($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
