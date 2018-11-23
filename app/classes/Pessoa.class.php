@@ -15,6 +15,7 @@ class Pessoa extends Crud{
     protected $telefone1;
     protected $telefone2;
     protected $dataCadastro;
+    protected $categoria;
 
     /**
     * Verifica se tem um usuario com o mesmo valor no Banco de Dados.
@@ -47,7 +48,8 @@ class Pessoa extends Crud{
     }
 
     public function logarPessoa($user, $pass){
-        $query = "SELECT * FROM PESSOA WHERE pes_usuario = '{$user}' AND pes_senha = '".md5($senha)."';";
+        $query = "SELECT * FROM PESSOA WHERE pes_usuario = '".$user."' AND pes_senha = '".$pass."';";
+        // echo $query."\n";
         $stmt = Conexao::doTransaction($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

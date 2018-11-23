@@ -31,8 +31,8 @@
 <div class="uk-margin-medium uk-container-large uk-column-1-3">
   <label class="uk-form-label" for="">CPF</label>
   <input class="uk-input uk-form-medium" type="text" name="cpf" value="">
-  <label class="uk-form-label" for="">Telefone 1</label>
-  <input class="uk-input uk-form-medium" type="text" name="telefone1" value="">
-  <label class="uk-form-label" for="">Telefone 2</label>
-  <input class="uk-input uk-form-medium" type="text" name="telefone2" value="">
+  <label class="uk-form-label" for="">Celular</label>
+  <input class="uk-input uk-form-medium celular" type="text" name="telefone1" value="">
+  <label class="uk-form-label" for="">Tel Fixo</label>
+  <input class="uk-input uk-form-medium fixo" type="text" name="telefone2" value="">
 </div>

@@ -8,6 +8,7 @@ $(document).ready(function() {
   check_user_exists();
   isDate();
   form_login();
+  session();
 });
 
 $(window).resize(function() {

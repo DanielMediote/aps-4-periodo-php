@@ -13,9 +13,8 @@
   $curso = new Curso();
   $empresa = new Empresa();
   $rotas = array(
-    'aluno' => ROOT.'/html/aluno.php',
+    'Estagiario' => ROOT.'/html/estagiario.php',
     'professor' => ROOT. '/html/professor.php',
-    'supervisor' => ROOT.'/html/supervisor.php',
     'empresa' => ROOT.'/html/empresa.php',
     'faculdade' => ROOT.'/html/faculdade.php',
   );

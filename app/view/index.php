@@ -7,7 +7,7 @@
 </head>
 <body>
   <?php require_once ROOT.'/html/build/navbar.php';?>
-  <?php require_once ROOT.'/html/build/slideshow.php';?>
+  <?php require_once ROOT.'/html/build/slideshow.html';?>
   <div class="uk-section uk-section-default">
     <div class="uk-container">
       <h3>Gerencie seu Estágio</h3>

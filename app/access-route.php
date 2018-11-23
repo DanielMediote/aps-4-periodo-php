@@ -6,13 +6,14 @@ $rotas = array(
   '/inicio' => 'view/index.php',
   '/cadastro' => 'view/cadastro.php',
   '/teste' => 'view/teste.php',
-  '/login' => 'view/login.php'
+  '/login' => 'view/login.php',
+  '/perfil' => 'view/perfil.php'
 );
 
 if (in_array(URL,array_keys($rotas))) {
   include_once $rotas[URL];
 }else {
-  include_once 'view/404.html';
+  include_once 'view/error/404.html';
 }
 
 ?>

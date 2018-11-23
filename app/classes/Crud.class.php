@@ -30,6 +30,18 @@ abstract class Crud{
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
+  public function searchCampoByValor($campo, $valorCampo, $coluna)
+  {
+    $type = gettype($valorCampo);
+    $sqlQuery = "SELECT * FROM {$this->tabela} WHERE {$campo} = ";
+    $sqlQuery .= (in_array($type, array('integer', 'double', 'boolean'))) ?
+    "{$campo}" : "'{$valorCampo}'";
+    $sqlQuery .= ";";
+    Conexao::startTransaction();
+    $stmt = Conexao::doTransaction($sqlQuery);
+    return $stmt->fetch(PDO::FETCH_ASSOC)[$coluna];
+  }
+
   /**
   * undocumented function summary
   *
@@ -64,7 +76,8 @@ abstract class Crud{
       $query .= ($key != end(array_keys($colunasBanco))) ? ", " : "";
     }
     $query .= ");";
-    // print("\n$query\n");
+    print("\n$query\n");
+    Conexao::startTransaction();
     $stmt = Conexao::doTransaction($query);
   }
 
@@ -104,6 +117,7 @@ abstract class Crud{
 
   public function getTableDetalhes(){
     $query = "DESCRIBE {$this->tabela};";
+    Conexao::startTransaction();
     $stmt = Conexao::doTransaction($query);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -114,6 +128,7 @@ abstract class Crud{
     $type = gettype($value);
     $query .= ($type == 'string') ? "'{$value}'" : "{$value};";
     // var_dump($query."\n");
+    Conexao::startTransaction();
     $stmt = Conexao::doTransaction($query);
     return $stmt->fetch(PDO::FETCH_ASSOC)[$colunasDB[0]];
   }

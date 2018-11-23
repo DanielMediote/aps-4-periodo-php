@@ -3,17 +3,13 @@
 /**
 *
 */
-class FormularioSubmit{
+class Formulario{
 
   protected $bean = array();
 
-  public function __construct($dados){
+  public function setBean($dados)
+  {
     $this->bean = $dados;
-  }
-
-  public function verificarSenhas($senha1, $senha2){
-    $senha = ($senha1 == $senha2) ? true : false;
-    return $senha;
   }
 
   public function submit(){
@@ -23,7 +19,7 @@ class FormularioSubmit{
     $endereco->setAll($this->bean);
     $endereco->insert();
 
-    if (in_array($this->bean['classe'], array('Aluno', 'Professor', 'Supervisor'))) {
+    if (in_array($this->bean['classe'], array('Estagiario', 'Professor'))) {
       $pessoa = new Pessoa();
 
       $pessoa->setAll($this->bean);
@@ -35,7 +31,8 @@ class FormularioSubmit{
       $id_class = $class->getTableIdByField($table_name."cpf" , $class->get('cpf'));
       $class->updatePessoaId($id_pes, $id_class);
     } else {
-      $class->setAll($this->dados);
+      $class->setAll($this->bean);
+      $class->show_object();
       $class->insert();
     }
   }

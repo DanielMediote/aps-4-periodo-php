@@ -8,7 +8,7 @@ class Faculdade extends Crud
   protected $id;
   protected $nome;
   protected $fantasia;
-  protected $cpnj;
+  protected $cnpj;
   protected $cep;
   protected $telefone1;
   protected $telefone2;

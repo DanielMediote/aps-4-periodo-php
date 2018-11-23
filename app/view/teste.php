@@ -7,12 +7,10 @@
 <body>
   <?php
   require_once AUTOLOAD;
-  $e = "aluno_id_pessoa";
-  if (preg_replace("/\w+_/", "", $e) == "pessoa") {
-    print("true");
-  }else {
-    echo "false";
-  }
+  $pes = new Pessoa();
+  Conexao::startTransaction();
+  var_dump($pes->readAll());
+  
   ?>
 </body>
 </html>

@@ -12,10 +12,7 @@ class Professor extends Pessoa
   protected $curso;
   protected $faculdade;
 
-  function __construct()
-  {
-
-  }
+  
 }
 
 
